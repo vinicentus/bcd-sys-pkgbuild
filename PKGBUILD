@@ -15,6 +15,7 @@ source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
 b2sums=('feb48366035f9afb0b38440019edfb03978c2998b1dcdecb7ab2200e117a62c8926b55a59139e6983c4245018c26087a8288be9fb294546a4ed92af9de52540c')
 
 package() {
+  # This part was adapted from the upstream setup.sh script
   local platform="Linux"
   local bindir="/usr/bin"
   local resdir="/usr/share/BCD-SYS"
@@ -34,7 +35,7 @@ package() {
   install Resources/detach-vhdx.sh "$pkgdir/$bindir/detach-vhdx"
   cp Resources/*.txt "$pkgdir/$resdir/Resources"
   cp -r Templates "$pkgdir/$resdir"
-  # TODO: use sed instead of perl so that we can get rid of a makedep
+  # TODO: use sed instead of perl so that we can get rid of perl as a makedep
   perl -i -pe"s|resdir=\".\"|resdir=\"$resdir\"|" "$pkgdir/$bindir/bcd-sys"
   perl -i -pe"s|tmpdir=\".\"|tmpdir=\"/tmp\"|" "$pkgdir/$bindir/bcd-sys"
   perl -i -pe"s|resdir=\".\"|resdir=\"$resdir\"|" "$pkgdir/$resdir/recovery.sh"
